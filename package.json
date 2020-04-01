@@ -1,0 +1,29 @@
+{
+  "name": "frontend-project-lvl2",
+  "version": "1.0.0",
+  "description": "second project on Hexlet",
+  "main": "src/index.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vlad507/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "cli",
+    "gendiff"
+  ],
+  "author": "Malyshev Vlad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vlad507/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/vlad507/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  }
+}
