@@ -3,7 +3,7 @@ import path from 'path';
 import _ from 'lodash';
 
 const readFile = (nameOfFile) => {
-  const fullNameOfFile = path.resolve(process.cwd(), String(nameOfFile))
+  const fullNameOfFile = path.resolve(process.cwd(), String(nameOfFile));
   const fileData = fs.readFileSync(fullNameOfFile, 'utf-8');
   const fileObj = JSON.parse(fileData);
   return fileObj;
