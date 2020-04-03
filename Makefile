@@ -5,7 +5,7 @@ link:
 publish:
 				npm publish --dry-run
 test:
-				npx jest
+				npm test
 test-coverage:
 				npm test -- --coverage
 lint:
