@@ -1,4 +1,4 @@
-name: difference
+name: diffCI
 
 on:
   - push
