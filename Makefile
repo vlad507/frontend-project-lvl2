@@ -10,3 +10,4 @@ test-coverage:
 				npm test -- --coverage
 lint:
 				npx eslint .
+.PHONY: test
