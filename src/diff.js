@@ -1,18 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
 
-const readFile = (nameOfFile) => {
-  const fullNameOfFile = path.resolve(process.cwd(), String(nameOfFile));
-  const fileData = fs.readFileSync(fullNameOfFile, 'utf-8');
-  const fileObj = JSON.parse(fileData);
-  return fileObj;
-};
-
-const findDiff = (file1, file2) => {
-  const object1 = readFile(file1);
+const findDiff = (object1, object2) => {
   const objectKeys1 = Object.keys(object1);
-  const object2 = readFile(file2);
   const objectKeys2 = Object.keys(object2);
   const assignObjects = _.assign({}, object1, object2);
   const changedKeys = _.xor(objectKeys1, objectKeys2);
