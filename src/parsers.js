@@ -1,6 +1,7 @@
 import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
+import ini from 'ini';
 
 const parsers = (file) => {
   const extension = path.extname(file).toLowerCase();
@@ -12,6 +13,8 @@ const parsers = (file) => {
     case '.yaml':
       return yaml.safeLoad(fileData)
         .reduce(((acc, currentItem) => ({ ...acc, ...currentItem })), {});
+    case '.ini':
+      return ini.parse(fileData);
     default:
       throw new Error('Неизвестное расширение файла!');
   }
