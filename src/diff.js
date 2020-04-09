@@ -1,21 +1,26 @@
 import _ from 'lodash';
 
 const findDiff = (object1, object2) => {
-  const objectKeys1 = Object.keys(object1);
-  const objectKeys2 = Object.keys(object2);
-  const assignObjects = _.assign({}, object1, object2);
-  const changedKeys = _.xor(objectKeys1, objectKeys2);
-  const arrayWithChanges = Object.entries(assignObjects).reduce((acc, entrie) => {
-    const [key, value] = entrie;
-    if (changedKeys.includes(key)) {
-      return (objectKeys1.includes(key)) ? [...acc, [`  - ${key}: ${value}`]] : [...acc, [`  + ${key}: ${value}`]];
+  const keysOfObj1 = Object.keys(object1);
+  const keysOfObj2 = Object.keys(object2);
+  const unionKeys = _.union(keysOfObj1, keysOfObj2);
+  return unionKeys.map((key) => {
+    if (!keysOfObj1.includes(key)) {
+      return { name: key, type: 'added', value: object2[key] };
     }
-    if (object1[key] === value) {
-      return [...acc, [`    ${key}: ${value}`]];
+    if (!keysOfObj2.includes(key)) {
+      return { name: key, type: 'deleted', value: object1[key] };
     }
-    return [...acc, [`  + ${key}: ${value}\n  - ${key}: ${object1[key]}`]];
-  }, []);
-  return `{\n${arrayWithChanges.join('\n')}\n}`;
+    if (_.isObject(object1[key]) && _.isObject(object2[key])) {
+      return { name: key, type: 'tree', children: findDiff(object1[key], object2[key]) };
+    }
+    if (object1[key] !== object2[key]) {
+      return {
+        name: key, type: 'changed', beforeValue: object1[key], afterValue: object2[key],
+      };
+    }
+    return { name: key, type: 'unchanged', value: object1[key] };
+  });
 };
 
 export default findDiff;

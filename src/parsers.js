@@ -11,8 +11,7 @@ const parsers = (file) => {
     case '.json':
       return JSON.parse(fileData);
     case '.yaml':
-      return yaml.safeLoad(fileData)
-        .reduce(((acc, currentItem) => ({ ...acc, ...currentItem })), {});
+      return yaml.safeLoad(fileData);
     case '.ini':
       return ini.parse(fileData);
     default:
