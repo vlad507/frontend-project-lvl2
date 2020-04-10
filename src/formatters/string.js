@@ -33,7 +33,6 @@ const convertToString = (node, level = 0, resultArray = []) => {
   const stringValue = valueToString(value, level + 1);
   const stringAfterValue = valueToString(afterValue, level + 1);
   const stringBeforeValue = valueToString(beforeValue, level + 1);
-  const newArray = [];
   switch (type) {
     case 'added':
       resultArray.push(`${headRetreat}+ ${name}: ${stringValue}\n`);
@@ -48,9 +47,8 @@ const convertToString = (node, level = 0, resultArray = []) => {
       resultArray.push(`${headRetreat}- ${name}: ${stringValue}\n`);
       break;
     case 'changed':
-      newArray.push(`${headRetreat}- ${name}: ${stringBeforeValue}\n`);
-      newArray.push(`${headRetreat}+ ${name}: ${stringAfterValue}\n`);
-      resultArray.push(newArray.join(''));
+      resultArray
+        .push(`${headRetreat}- ${name}: ${stringBeforeValue}\n${headRetreat}+ ${name}: ${stringAfterValue}\n`);
       break;
     case 'unchanged':
       resultArray.push(`${headRetreat}  ${name}: ${stringValue}\n`);

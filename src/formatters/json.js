@@ -4,7 +4,6 @@ const convertToJSON = (node) => {
   const {
     name, type, children, value, afterValue, beforeValue,
   } = node;
-  console.log(value);
   switch (type) {
     case 'added':
       return { [name]: { type, value } };
