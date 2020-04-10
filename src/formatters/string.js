@@ -13,7 +13,8 @@ const strignifyObj = (node, level) => {
   const keys = Object.keys(node);
   return keys.map((key) => {
     if (_.isObject(node[key])) {
-      return `{\n${headRetreat}  ${key}: ${strignifyObj(node[key], level + 1).join('')}\n${tailRetreat}}`;
+      return `{\n${headRetreat}  ${key}: ${strignifyObj(node[key], level + 1)
+        .join('')}\n${tailRetreat}}`;
     }
     return `{\n${headRetreat}  ${key}: ${node[key]}\n${tailRetreat}}`;
   });
