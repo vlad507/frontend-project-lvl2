@@ -1,12 +1,12 @@
 install:
-				npm install
+	npm install
 link: 
-				sudo npm link
+	sudo npm link
 publish:
-				npm publish --dry-run
+	npm publish --dry-run
 test:
-				npm test
+	npm test
 test-coverage:
-				npm test -- --coverage
+	npm test -- --coverage
 lint:
-				npx eslint .
+	npx eslint .

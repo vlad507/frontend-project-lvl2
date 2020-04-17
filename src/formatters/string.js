@@ -20,7 +20,7 @@ const strignifyObj = (node, level) => {
   });
 };
 
-const valueToString = (value, level) => {
+const convertValueToString = (value, level) => {
   const valueString = ((value && _.isObject(value)) ? strignifyObj(value, level) : value);
   return valueString;
 };
@@ -30,9 +30,9 @@ const convertToString = (node, level = 0, resultArray = []) => {
     name, type, children, value, afterValue, beforeValue,
   } = node;
   const headRetreat = makeRetreat(level, 'head');
-  const stringValue = valueToString(value, level + 1);
-  const stringAfterValue = valueToString(afterValue, level + 1);
-  const stringBeforeValue = valueToString(beforeValue, level + 1);
+  const stringValue = convertValueToString(value, level + 1);
+  const stringAfterValue = convertValueToString(afterValue, level + 1);
+  const stringBeforeValue = convertValueToString(beforeValue, level + 1);
   switch (type) {
     case 'added':
       resultArray.push(`${headRetreat}+ ${name}: ${stringValue}\n`);

@@ -3,10 +3,15 @@ import fs from 'fs';
 import path from 'path';
 import ini from 'ini';
 
-const parsers = (file) => {
-  const extension = path.extname(file).toLowerCase();
-  const fullNameOfFile = path.resolve(process.cwd(), String(file));
+const readFile = (filePath) => {
+  const fullNameOfFile = path.resolve(process.cwd(), String(filePath));
   const fileData = fs.readFileSync(fullNameOfFile, 'utf-8');
+  return fileData;
+};
+
+const parse = (filePath) => {
+  const extension = path.extname(filePath).toLowerCase();
+  const fileData = readFile(filePath);
   switch (extension) {
     case '.json':
       return JSON.parse(fileData);
@@ -19,4 +24,4 @@ const parsers = (file) => {
   }
 };
 
-export default parsers;
+export default parse;

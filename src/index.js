@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import findDiff from './diff.js';
-import parsers from './parsers.js';
+import parse from './parsers.js';
 import convertToString from './formatters/string.js';
 import convertToPlain from './formatters/plain.js';
 import convertToJSON from './formatters/json.js';
 
-export default (firstFile, secondFile, format = 'string') => {
-  const firstObject = parsers(firstFile);
-  const secondObject = parsers(secondFile);
+export default (firstFilePath, secondFilePath, format = 'string') => {
+  const firstObject = parse(firstFilePath);
+  const secondObject = parse(secondFilePath);
   const difference = findDiff(firstObject, secondObject);
   switch (format) {
     case 'string':
