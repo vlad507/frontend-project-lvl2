@@ -7,7 +7,7 @@ let diffFilePlain;
 let diffFileJSON;
 
 const getFixturesPath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8'); 
+const readFile = (filename) => fs.readFileSync(getFixturesPath(filename), 'utf-8');
 
 beforeAll(() => {
   diffFileString = readFile('differenceSubObj');
