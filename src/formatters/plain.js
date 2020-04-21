@@ -12,7 +12,7 @@ const checkValue = (value) => {
   return value;
 };
 
-const convertToPlain = (node, path = '') => {
+const convertNodeToPlain = (node, path = '') => {
   const {
     name, type, children, value, afterValue, beforeValue,
   } = node;
@@ -24,7 +24,7 @@ const convertToPlain = (node, path = '') => {
     case 'added':
       return `Property '${nameWithPath}' was added with value: ${checkedValue}`;
     case 'tree':
-      return _.flatten(children.map((child) => convertToPlain(child, `${nameWithPath}`)));
+      return _.flatten(children.map((child) => convertNodeToPlain(child, `${nameWithPath}`)));
     case 'deleted':
       return `Property '${nameWithPath}' was deleted`;
     case 'changed':
@@ -34,6 +34,16 @@ const convertToPlain = (node, path = '') => {
     default:
       throw new Error('Неизвестный тип изменения!');
   }
+};
+
+const convertToPlain = (arrayOfObjDifferences) => {
+  const arrayOfPlainDiff = _.compact(
+    _.flatten(
+      arrayOfObjDifferences.map((node) => convertNodeToPlain(node)),
+    ),
+  );
+  const plainDifferences = arrayOfPlainDiff.join('\n');
+  return plainDifferences;
 };
 
 export default convertToPlain;

@@ -25,7 +25,7 @@ const convertValueToString = (value, level) => {
   return valueString;
 };
 
-const convertToString = (node, level = 0, resultArray = []) => {
+const convertNodeToString = (node, level = 0, resultArray = []) => {
   const {
     name, type, children, value, afterValue, beforeValue,
   } = node;
@@ -40,7 +40,7 @@ const convertToString = (node, level = 0, resultArray = []) => {
     case 'tree':
       resultArray
         .push(`${headRetreat}  ${name}: {\n${children
-          .map((child) => convertToString(child, level + 1, []))
+          .map((child) => convertNodeToString(child, level + 1, []))
           .join('')}${makeRetreat(level + 1, 'tail')}}\n`);
       break;
     case 'deleted':
@@ -57,6 +57,12 @@ const convertToString = (node, level = 0, resultArray = []) => {
       throw new Error('Неизвестный тип изменения!');
   }
   return resultArray;
+};
+
+const convertToString = (arrayOfObjDifferences) => {
+  const arrayOfStringsDiff = arrayOfObjDifferences.map((node) => convertNodeToString(node));
+  const stringDifferences = `{\n${arrayOfStringsDiff.join('')}}`;
+  return stringDifferences;
 };
 
 export default convertToString;
