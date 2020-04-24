@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const checkValue = (value) => {
+const convertToDisplayType = (value) => {
   const isValueObject = (value && _.isObject(value));
   const isValueString = (value && _.isString(value));
   if (isValueObject) {
@@ -16,23 +16,23 @@ const convertNodeToPlain = (node, path = '') => {
   const {
     name, type, children, value, afterValue, beforeValue,
   } = node;
-  const checkedValue = checkValue(value);
-  const checkedBeforeValue = checkValue(beforeValue);
-  const checkedAfterValue = checkValue(afterValue);
+  const convertedValue = convertToDisplayType(value);
+  const convertedBeforeValue = convertToDisplayType(beforeValue);
+  const convertedAfterValue = convertToDisplayType(afterValue);
   const nameWithPath = (path.length !== 0) ? `${path}.${name}` : name;
   switch (type) {
     case 'added':
-      return `Property '${nameWithPath}' was added with value: ${checkedValue}`;
+      return `Property '${nameWithPath}' was added with value: ${convertedValue}`;
     case 'tree':
       return _.flatten(children.map((child) => convertNodeToPlain(child, `${nameWithPath}`)));
     case 'deleted':
       return `Property '${nameWithPath}' was deleted`;
     case 'changed':
-      return `Property '${nameWithPath}' was changed from ${checkedBeforeValue} to ${checkedAfterValue}`;
+      return `Property '${nameWithPath}' was changed from ${convertedBeforeValue} to ${convertedAfterValue}`;
     case 'unchanged':
       return '';
     default:
-      throw new Error('Неизвестный тип изменения!');
+      throw new Error(`Unknown type of node: '${type}'!`);
   }
 };
 

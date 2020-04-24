@@ -20,43 +20,32 @@ const strignifyObj = (node, level) => {
   });
 };
 
-const convertValueToString = (value, level) => {
-  const valueString = ((value && _.isObject(value)) ? strignifyObj(value, level) : value);
-  return valueString;
-};
-
-const convertNodeToString = (node, level = 0, resultArray = []) => {
+const convertNodeToString = (node, level = 0) => {
   const {
     name, type, children, value, afterValue, beforeValue,
   } = node;
   const headRetreat = makeRetreat(level, 'head');
-  const stringValue = convertValueToString(value, level + 1);
-  const stringAfterValue = convertValueToString(afterValue, level + 1);
-  const stringBeforeValue = convertValueToString(beforeValue, level + 1);
+  const stringValue = (value && _.isObject(value) ? strignifyObj(value, level + 1) : value);
+  const stringAfterValue = (afterValue && _.isObject(afterValue)
+    ? strignifyObj(afterValue, level + 1) : afterValue);
+  const stringBeforeValue = (beforeValue && _.isObject(beforeValue)
+    ? strignifyObj(beforeValue, level + 1) : beforeValue);
   switch (type) {
     case 'added':
-      resultArray.push(`${headRetreat}+ ${name}: ${stringValue}\n`);
-      break;
+      return `${headRetreat}+ ${name}: ${stringValue}\n`;
     case 'tree':
-      resultArray
-        .push(`${headRetreat}  ${name}: {\n${children
-          .map((child) => convertNodeToString(child, level + 1, []))
-          .join('')}${makeRetreat(level + 1, 'tail')}}\n`);
-      break;
+      return `${headRetreat}  ${name}: {\n${children
+        .map((child) => convertNodeToString(child, level + 1))
+        .join('')}${makeRetreat(level + 1, 'tail')}}\n`;
     case 'deleted':
-      resultArray.push(`${headRetreat}- ${name}: ${stringValue}\n`);
-      break;
+      return `${headRetreat}- ${name}: ${stringValue}\n`;
     case 'changed':
-      resultArray
-        .push(`${headRetreat}- ${name}: ${stringBeforeValue}\n${headRetreat}+ ${name}: ${stringAfterValue}\n`);
-      break;
+      return `${headRetreat}- ${name}: ${stringBeforeValue}\n${headRetreat}+ ${name}: ${stringAfterValue}\n`;
     case 'unchanged':
-      resultArray.push(`${headRetreat}  ${name}: ${stringValue}\n`);
-      break;
+      return `${headRetreat}  ${name}: ${stringValue}\n`;
     default:
-      throw new Error('Неизвестный тип изменения!');
+      throw new Error(`Unknown type of node: '${type}'!`);
   }
-  return resultArray;
 };
 
 const convertToString = (arrayOfObjDifferences) => {

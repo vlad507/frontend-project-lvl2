@@ -16,19 +16,15 @@ beforeAll(() => {
 });
 
 const filePaths = [
-  [getFixturesPath('beforeSubObj.json'), getFixturesPath('afterSubObj.json')],
-  [getFixturesPath('before.yaml'), getFixturesPath('after.yaml')],
-  [getFixturesPath('before.ini'), getFixturesPath('after.ini')],
+  ['beforeSubObj.json', 'afterSubObj.json'],
+  ['before.yaml', 'after.yaml'],
+  ['before.ini', 'after.ini'],
 ];
 
-test.each(filePaths)('findDiff String', (firstFilePath, secondFilePath) => {
-  expect(findDiff(firstFilePath, secondFilePath, 'string')).toBe(diffFileString);
-});
-
-test.each(filePaths)('findDiff Plain', (firstFilePath, secondFilePath) => {
-  expect(findDiff(firstFilePath, secondFilePath, 'plain')).toBe(diffFilePlain);
-});
-
-test.each(filePaths)('findDiff JSON', (firstFilePath, secondFilePath) => {
-  expect(findDiff(firstFilePath, secondFilePath, 'json')).toBe(diffFileJSON);
+test.each(filePaths)('findDiff', (firstFilePath, secondFilePath) => {
+  const firstFixtureFilePath = getFixturesPath(firstFilePath);
+  const secondFixtureFilePath = getFixturesPath(secondFilePath);
+  expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'string')).toBe(diffFileString);
+  expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'plain')).toBe(diffFilePlain);
+  expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'json')).toBe(diffFileJSON);
 });

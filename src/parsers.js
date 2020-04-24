@@ -1,16 +1,16 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-const parse = (fileData, extensionOfFile) => {
-  switch (extensionOfFile) {
+const parse = (data, typeOfData) => {
+  switch (typeOfData) {
     case '.json':
-      return JSON.parse(fileData);
+      return JSON.parse(data);
     case '.yaml':
-      return yaml.safeLoad(fileData);
+      return yaml.safeLoad(data);
     case '.ini':
-      return ini.parse(fileData);
+      return ini.parse(data);
     default:
-      throw new Error('Неизвестное расширение файла!');
+      throw new Error(`Unknown type: ${typeOfData}`);
   }
 };
 

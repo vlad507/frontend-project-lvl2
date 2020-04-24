@@ -5,10 +5,10 @@ const findDiff = (object1, object2) => {
   const keysOfObj2 = Object.keys(object2);
   const unionKeys = _.union(keysOfObj1, keysOfObj2);
   return unionKeys.map((key) => {
-    if (!Reflect.has(object1, key)) {
+    if (!_.has(object1, key)) {
       return { name: key, type: 'added', value: object2[key] };
     }
-    if (!Reflect.has(object2, key)) {
+    if (!_.has(object2, key)) {
       return { name: key, type: 'deleted', value: object1[key] };
     }
     if (_.isObject(object1[key]) && _.isObject(object2[key])) {

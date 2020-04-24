@@ -11,7 +11,7 @@ const toFormat = (dataToFormat, format) => {
     case 'json':
       return convertToJSON(dataToFormat);
     default:
-      throw new Error('Неизвестный формат вывода');
+      throw new Error(`Unknown format: '${format}'`);
   }
 };
 
