@@ -30,19 +30,19 @@ const convertNodeToPlain = (node, path = '') => {
     case 'changed':
       return `Property '${nameWithPath}' was changed from ${convertedBeforeValue} to ${convertedAfterValue}`;
     case 'unchanged':
-      return '';
+      return null;
     default:
       throw new Error(`Unknown type of node: '${type}'!`);
   }
 };
 
-const convertToPlain = (arrayOfObjDifferences) => {
-  const arrayOfPlainDiff = _.compact(
+const convertToPlain = (objDifferences) => {
+  const getPlainDiff = _.compact(
     _.flatten(
-      arrayOfObjDifferences.map((node) => convertNodeToPlain(node)),
+      objDifferences.map((node) => convertNodeToPlain(node)),
     ),
   );
-  const plainDifferences = arrayOfPlainDiff.join('\n');
+  const plainDifferences = getPlainDiff.join('\n');
   return plainDifferences;
 };
 

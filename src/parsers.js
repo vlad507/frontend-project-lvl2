@@ -3,11 +3,11 @@ import ini from 'ini';
 
 const parse = (data, typeOfData) => {
   switch (typeOfData) {
-    case '.json':
+    case 'json':
       return JSON.parse(data);
-    case '.yaml':
+    case 'yaml':
       return yaml.safeLoad(data);
-    case '.ini':
+    case 'ini':
       return ini.parse(data);
     default:
       throw new Error(`Unknown type: ${typeOfData}`);

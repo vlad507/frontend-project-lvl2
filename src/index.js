@@ -15,8 +15,8 @@ export default (firstFilePath, secondFilePath, format = 'string') => {
   const data2 = readFile(secondFilePath);
   const extensionOfFirstFile = path.extname(firstFilePath).toLowerCase();
   const extensionOfSecondFile = path.extname(secondFilePath).toLowerCase();
-  const firstObject = parse(data1, extensionOfFirstFile);
-  const secondObject = parse(data2, extensionOfSecondFile);
+  const firstObject = parse(data1, extensionOfFirstFile.slice(1));
+  const secondObject = parse(data2, extensionOfSecondFile.slice(1));
   const difference = findDiff(firstObject, secondObject);
   const formattedDifference = toFormat(difference, format);
   return formattedDifference;

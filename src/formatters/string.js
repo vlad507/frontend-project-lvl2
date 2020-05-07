@@ -8,50 +8,48 @@ const makeRetreat = (level, place) => {
 };
 
 const strignifyObj = (node, level) => {
-  const headRetreat = makeRetreat(level, 'head');
-  const tailRetreat = makeRetreat(level, 'tail');
-  const keys = Object.keys(node);
-  return keys.map((key) => {
-    if (_.isObject(node[key])) {
-      return `{\n${headRetreat}  ${key}: ${strignifyObj(node[key], level + 1)
-        .join('')}\n${tailRetreat}}`;
-    }
-    return `{\n${headRetreat}  ${key}: ${node[key]}\n${tailRetreat}}`;
-  });
-};
-
-const convertNodeToString = (node, level = 0) => {
-  const {
-    name, type, children, value, afterValue, beforeValue,
-  } = node;
-  const headRetreat = makeRetreat(level, 'head');
-  const stringValue = (value && _.isObject(value) ? strignifyObj(value, level + 1) : value);
-  const stringAfterValue = (afterValue && _.isObject(afterValue)
-    ? strignifyObj(afterValue, level + 1) : afterValue);
-  const stringBeforeValue = (beforeValue && _.isObject(beforeValue)
-    ? strignifyObj(beforeValue, level + 1) : beforeValue);
-  switch (type) {
-    case 'added':
-      return `${headRetreat}+ ${name}: ${stringValue}\n`;
-    case 'tree':
-      return `${headRetreat}  ${name}: {\n${children
-        .map((child) => convertNodeToString(child, level + 1))
-        .join('')}${makeRetreat(level + 1, 'tail')}}\n`;
-    case 'deleted':
-      return `${headRetreat}- ${name}: ${stringValue}\n`;
-    case 'changed':
-      return `${headRetreat}- ${name}: ${stringBeforeValue}\n${headRetreat}+ ${name}: ${stringAfterValue}\n`;
-    case 'unchanged':
-      return `${headRetreat}  ${name}: ${stringValue}\n`;
-    default:
-      throw new Error(`Unknown type of node: '${type}'!`);
+  if (node && _.isObject(node)) {
+    const headRetreat = makeRetreat(level, 'head');
+    const tailRetreat = makeRetreat(level, 'tail');
+    const keys = Object.keys(node);
+    return keys.map((key) => {
+      if (_.isObject(node[key])) {
+        return `{\n${headRetreat}  ${key}: ${strignifyObj(node[key], level + 1)
+          .join('\n')}\n${tailRetreat}}`;
+      }
+      return `{\n${headRetreat}  ${key}: ${node[key]}\n${tailRetreat}}`;
+    });
   }
+  return node;
 };
 
-const convertToString = (arrayOfObjDifferences) => {
-  const arrayOfStringsDiff = arrayOfObjDifferences.map((node) => convertNodeToString(node));
-  const stringDifferences = `{\n${arrayOfStringsDiff.join('')}}`;
-  return stringDifferences;
+const convertToString = (objDifferences, levelOfNode = 0) => {
+  const convertNodeToString = (node, level) => {
+    const {
+      name, type, children, value, afterValue, beforeValue,
+    } = node;
+    const headRetreat = makeRetreat(level, 'head');
+    const convertedValue = strignifyObj(value, level + 1);
+    const convertedAfterValue = strignifyObj(afterValue, level + 1);
+    const convertedBeforeValue = strignifyObj(beforeValue, level + 1);
+    switch (type) {
+      case 'added':
+        return `${headRetreat}+ ${name}: ${convertedValue}`;
+      case 'tree':
+        return `${headRetreat}  ${name}: {\n${convertToString(children, level + 1)}\n${makeRetreat(level + 1, 'tail')}}`;
+      case 'deleted':
+        return `${headRetreat}- ${name}: ${convertedValue}`;
+      case 'changed':
+        return `${headRetreat}- ${name}: ${convertedBeforeValue}\n${headRetreat}+ ${name}: ${convertedAfterValue}`;
+      case 'unchanged':
+        return `${headRetreat}  ${name}: ${convertedValue}`;
+      default:
+        throw new Error(`Unknown type of node: '${type}'!`);
+    }
+  };
+  const getStringsDiff = objDifferences.map((node) => convertNodeToString(node, levelOfNode));
+  const stringDifferences = getStringsDiff.join('\n');
+  return (levelOfNode === 0) ? `{\n${stringDifferences}\n}` : stringDifferences;
 };
 
 export default convertToString;
