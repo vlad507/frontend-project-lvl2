@@ -24,7 +24,7 @@ const filePaths = [
 test.each(filePaths)('findDiff', (firstFilePath, secondFilePath) => {
   const firstFixtureFilePath = getFixturesPath(firstFilePath);
   const secondFixtureFilePath = getFixturesPath(secondFilePath);
-  expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'string')).toBe(diffFileString);
+  expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'stylish')).toBe(diffFileString);
   expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'plain')).toBe(diffFilePlain);
   expect(findDiff(firstFixtureFilePath, secondFixtureFilePath, 'json')).toBe(diffFileJSON);
 });

@@ -1,11 +1,11 @@
-import convertToString from './string.js';
+import convertToStylish from './stylish.js';
 import convertToPlain from './plain.js';
 import convertToJSON from './json.js';
 
 const toFormat = (dataToFormat, format) => {
   switch (format) {
-    case 'string':
-      return convertToString(dataToFormat);
+    case 'stylish':
+      return convertToStylish(dataToFormat);
     case 'plain':
       return convertToPlain(dataToFormat);
     case 'json':

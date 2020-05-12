@@ -10,7 +10,7 @@ const readFile = (filePath) => {
   return fileData;
 };
 
-export default (firstFilePath, secondFilePath, format = 'string') => {
+export default (firstFilePath, secondFilePath, format = 'stylish') => {
   const data1 = readFile(firstFilePath);
   const data2 = readFile(secondFilePath);
   const extensionOfFirstFile = path.extname(firstFilePath).toLowerCase();
