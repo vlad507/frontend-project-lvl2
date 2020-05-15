@@ -8,15 +8,16 @@ const indent = (depth, place) => {
 };
 
 const stringify = (node, depth) => {
+  if (!_.isObject(node)) {
+    return node;
+  }
   const headIndent = indent(depth, 'head');
   const tailIndent = indent(depth, 'tail');
-  return (_.isObject(node))
-    ? Object.keys(node)
-      .map((key) => ((_.isObject(node[key]))
-        ? `{\n${headIndent}  ${key}: ${stringify(node[key], depth + 1)
-          .join('\n')}\n${tailIndent}}`
-        : `{\n${headIndent}  ${key}: ${node[key]}\n${tailIndent}}`))
-    : node;
+  const keys = Object.keys(node);
+  return keys.map((key) => ((_.isObject(node[key]))
+    ? `{\n${headIndent}  ${key}: ${stringify(node[key], depth + 1).join('\n')}\n${tailIndent}}`
+    : `{\n${headIndent}  ${key}: ${node[key]}\n${tailIndent}}`
+  ));
 };
 
 const convertToStylish = (objDifferences, depth = 0) => {
